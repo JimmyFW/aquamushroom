@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "name": "AquaMushroom",
+  "description": "Chestnut",
+  "version": "1.0",
+  "browser_action": {
+    "default_icon": "rsz_bike.png"
+  },
+  "chrome_url_overrides": {
+    "newtab": "bg.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "app.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs",
+    "https://api.tumblr.com/v2/blog/lightonlaughter.tumblr.com/*",
+    "storage"
+  ],
+  "content_security_policy": "script-src 'self' https://api.tumblr.com; object-src 'self'"
+}
