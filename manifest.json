@@ -19,12 +19,23 @@
       ]
     }
   ],
+  "oauth2": {
+    "client_id": "312744498877-4i4csmucbi5sfcc87slu9bb199jqqnqh.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/spreadsheets"
+    ]
+  },
   "permissions": [
     "storage",
     "activeTab",
     "tabs",
     "https://api.tumblr.com/v2/blog/lightonlaughter.tumblr.com/*",
-    "storage"
+    "https://secret-basin-29320.herokuapp.com/todo/api/v1.0/currid/*",
+    "storage",
+    "identity",
+    "https://ssl.gstatic.com/",
+    "https://www.googleapis.com/",
+    "https://accounts.google.com/"
   ],
   "content_security_policy": "script-src 'self' https://api.tumblr.com; object-src 'self'"
 }
