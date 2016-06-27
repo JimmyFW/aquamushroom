@@ -1,9 +1,10 @@
 window.addEventListener("load", getImages);
-document.body.addEventListener("click", getImage);
+document.body.addEventListener("click", setIndex);
 
 globalResponse = "";
 images = [];
 index = 0;
+hurl = 'https://secret-basin-29320.herokuapp.com/todo/api/v1.0/currid';
 
 function getImages() {
 	console.log("Let's get the images");
@@ -21,17 +22,42 @@ function getImages() {
 				images.push(url)
 			}
 		}
+		getIndex();
 	};
 	xhr.send();
 }
 
-function getImage() {
-	if (index >= images.length) {
-		console.log("Reached end of images, wrapping around");
-		index = 0;
+function getIndex() {
+	console.log('Getting index');
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", hurl);
+	xhr.responseType = "json";
+	xhr.onload = function(e) {
+		console.log(this.response);
+		indexResponse = this.response;
+		currIndex = indexResponse.currid[0].currid;
+		console.log(currIndex);
+		getImage();
 	}
-	var img = images[index];
+	xhr.send();
+}
+
+function getImage() {
+	if (currIndex >= images.length) {
+		console.log("Reached end of images, wrapping around");
+		currIndex = 0;
+	}
+	var img = images[currIndex];
 	console.log(img);
 	document.body.style.backgroundImage = "url(" + img + ")"
-	index++;
+	currIndex++;
+}
+
+function setIndex() {
+	console.log('Setting index');
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", hurl);
+	xhr.setRequestHeader("Content-type", "application/json");
+	xhr.send(JSON.stringify({'newid': currIndex++}));	
+	getIndex();
 }
