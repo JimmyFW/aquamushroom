@@ -1,4 +1,12 @@
+/*
+On tab load, grab image urls, put em in global,
+get the current index, and display the desired image
+*/
 window.addEventListener("load", getImages);
+
+/*
+On click, update the index, and display the desired image
+*/
 document.body.addEventListener("click", setIndex);
 
 globalResponse = "";
