@@ -4,7 +4,7 @@ document.body.addEventListener("click", setIndex);
 globalResponse = "";
 images = [];
 index = 0;
-hurl = 'https://secret-basin-29320.herokuapp.com/todo/api/v1.0/currid';
+
 
 function getImages() {
 	console.log("Let's get the images");
