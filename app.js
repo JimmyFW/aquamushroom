@@ -1,10 +1,18 @@
+/*
+On tab load, grab image urls, put em in global,
+get the current index, and display the desired image
+*/
 window.addEventListener("load", getImages);
+
+/*
+On click, update the index, and display the desired image
+*/
 document.body.addEventListener("click", setIndex);
 
 globalResponse = "";
 images = [];
 index = 0;
-hurl = 'https://secret-basin-29320.herokuapp.com/todo/api/v1.0/currid';
+
 
 function getImages() {
 	console.log("Let's get the images");
