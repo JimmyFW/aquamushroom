@@ -11,9 +11,9 @@ document.body.addEventListener("click", setIndex);
 
 globalResponse = "";
 images = [];
-index = 0;
 hurl = 'https://secret-basin-29320.herokuapp.com/todo/api/v1.0/currid';
-
+hurl2 = 'https://secret-basin-29320.herokuapp.com/todo/api/v2.0/currid/images';
+nubphotos = 0;
 
 function getImages() {
 	console.log("Let's get the images");
@@ -23,23 +23,27 @@ function getImages() {
 	xhr.onload = function(e) {
 		console.log(this.response);
 		globalResponse = this.response;
+		console.log(globalResponse)
+		nubphotos = globalResponse.response.posts.length;
+		console.log(nubphotos)
 		for (let post of globalResponse.response.posts) {
 			if (post.photos) {
-				console.log(post.photos.length);
 				var url = post.photos[0].original_size.url;
 				console.log(url);
 				images.push(url)
 			}
 		}
-		getIndex();
+		getIndex(nubphotos);
 	};
 	xhr.send();
 }
 
-function getIndex() {
+function getIndex(nubphotos) {
 	console.log('Getting index');
 	var xhr = new XMLHttpRequest();
-	xhr.open("GET", hurl);
+	console.log(nubphotos)
+	console.log(hurl2 + "/" +toString(nubphotos))
+	xhr.open("GET", hurl2 + "/" + toString(nubphotos));
 	xhr.responseType = "json";
 	xhr.onload = function(e) {
 		console.log(this.response);
