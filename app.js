@@ -35,7 +35,7 @@ function getIndex() {
 	xhr.onload = function(e) {
 		console.log(this.response);
 		indexResponse = this.response;
-		currIndex = indexResponse.currid[0].currid;
+		currIndex = indexResponse.currid;
 		console.log(currIndex);
 		getImage();
 	}
