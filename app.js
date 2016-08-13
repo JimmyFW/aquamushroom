@@ -13,7 +13,6 @@ globalResponse = "";
 images = [];
 hurl = 'https://secret-basin-29320.herokuapp.com/todo/api/v1.0/currid';
 hurl2 = 'https://secret-basin-29320.herokuapp.com/todo/api/v2.0/currid/images';
-nubphotos = 0;
 
 function getImages() {
 	console.log("Let's get the images");
@@ -33,12 +32,12 @@ function getImages() {
 				images.push(url)
 			}
 		}
-		getIndex(nubphotos);
+		getIndex();
 	};
 	xhr.send();
 }
 
-function getIndex(nubphotos) {
+function getIndex() {
 	console.log('Getting index');
 	var xhr = new XMLHttpRequest();
 	console.log(nubphotos)
@@ -67,10 +66,11 @@ function getImage() {
 }
 
 function setIndex() {
+	var randomImage = Math.floor(Math.random() * nubphotos )
 	console.log('Setting index');
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", hurl);
 	xhr.setRequestHeader("Content-type", "application/json");
-	xhr.send(JSON.stringify({'newid': currIndex++}));	
+	xhr.send(JSON.stringify({'newid': randomImage}));	
 	getIndex();
 }
