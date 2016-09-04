@@ -9,10 +9,29 @@ On click, update the index, and display the desired image
 */
 document.body.addEventListener("click", setIndex);
 
-globalResponse = "";
 images = [];
 hurl = 'https://secret-basin-29320.herokuapp.com/todo/api/v1.0/currid';
 hurl2 = 'https://secret-basin-29320.herokuapp.com/todo/api/v2.0/currid/images';
+
+
+function getBase64Image(img) {
+    // Create an empty canvas element
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    // Copy the image contents to the canvas
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    // Get the data-URL formatted image
+    // Firefox supports PNG and JPEG. You could check img.src to
+    // guess the original format, but be aware the using "image/jpg"
+    // will re-encode the image.
+    var dataURL = canvas.toDataURL("image/png");
+
+    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+}
 
 function getImages() {
 	console.log("Let's get the images");
@@ -40,9 +59,10 @@ function getImages() {
 function getIndex() {
 	console.log('Getting index');
 	var xhr = new XMLHttpRequest();
-	console.log(nubphotos)
-	console.log(hurl2 + "/" +toString(nubphotos))
-	xhr.open("GET", hurl2 + "/" + toString(nubphotos));
+	console.log(nubphotos);
+	fullHurl2 = hurl2 + "/" + String(nubphotos);
+	console.log(fullHurl2);
+	xhr.open("GET", fullHurl2);
 	xhr.responseType = "json";
 	xhr.onload = function(e) {
 		console.log(this.response);
@@ -55,14 +75,9 @@ function getIndex() {
 }
 
 function getImage() {
-	if (currIndex >= images.length) {
-		console.log("Reached end of images, wrapping around");
-		currIndex = 0;
-	}
 	var img = images[currIndex];
 	console.log(img);
 	document.body.style.backgroundImage = "url(" + img + ")"
-	currIndex++;
 }
 
 function setIndex() {
