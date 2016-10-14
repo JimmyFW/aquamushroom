@@ -13,26 +13,6 @@ images = [];
 hurl = 'https://secret-basin-29320.herokuapp.com/todo/api/v1.0/currid';
 hurl2 = 'https://secret-basin-29320.herokuapp.com/todo/api/v2.0/currid/images';
 
-
-function getBase64Image(img) {
-    // Create an empty canvas element
-    var canvas = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
-
-    // Copy the image contents to the canvas
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0);
-
-    // Get the data-URL formatted image
-    // Firefox supports PNG and JPEG. You could check img.src to
-    // guess the original format, but be aware the using "image/jpg"
-    // will re-encode the image.
-    var dataURL = canvas.toDataURL("image/png");
-
-    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-}
-
 function getImages() {
 	console.log("Let's get the images");
 	var xhr = new XMLHttpRequest();
