@@ -21,14 +21,14 @@ function getImages() {
 	xhr.onload = function(e) {
 		console.log(this.response);
 		globalResponse = this.response;
-		console.log(globalResponse)
+		console.log(globalResponse);
 		nubphotos = globalResponse.response.posts.length;
-		console.log(nubphotos)
+		console.log(nubphotos);
 		for (let post of globalResponse.response.posts) {
 			if (post.photos) {
 				var url = post.photos[0].original_size.url;
 				console.log(url);
-				images.push(url)
+				images.push(url);
 			}
 		}
 		getIndex();
