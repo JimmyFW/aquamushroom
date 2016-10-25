@@ -1,3 +1,5 @@
-# aquamushroom
+# The Medium is the New Tab
 
-Have you ever wanted to share an emotion with someone far far away? Studies show that images are a powerful medium, activating our brains on the levels of the symbolic and imaginary. This add-on creates a space for you to project your visions.
+Inspired in part by McLuhan's ruminations on media as an extension of man (and by Google Art Project).
+
+Create shared browsing aesthetics from tumblr feeds.
