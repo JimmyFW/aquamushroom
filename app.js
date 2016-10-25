@@ -12,6 +12,8 @@ document.body.addEventListener("click", setIndex);
 images = [];
 hurl = 'https://secret-basin-29320.herokuapp.com/todo/api/v1.0/currid';
 hurl2 = 'https://secret-basin-29320.herokuapp.com/todo/api/v2.0/currid/images';
+hurl_urls = 'https://secret-basin-29320.herokuapp.com/todo/api/v3.0/allurls';
+hurl_url = 'https://secret-basin-29320.herokuapp.com/todo/api/v3.0/currurl'
 
 
 function getBase64Image(img) {
@@ -87,5 +89,30 @@ function setIndex() {
 	xhr.open("POST", hurl);
 	xhr.setRequestHeader("Content-type", "application/json");
 	xhr.send(JSON.stringify({'newid': randomImage}));	
+	getIndex();
+}
+
+function getUrl() {
+	console.log('Getting index');
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", hurl_url);
+	xhr.responseType = "json";
+	xhr.onload = function(e) {
+		console.log(this.response);
+		indexResponse = this.response;
+		currUrl = indexResponse.currurl;
+		console.log(currUrl);
+		getImage();
+	}
+	xhr.send();
+}
+
+function setUrl() {
+	var randomImage = Math.floor(Math.random() * nubphotos )
+	console.log('Setting url');
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", hurl_url);
+	xhr.setRequestHeader("Content-type", "application/json");
+	xhr.send(JSON.stringify({'hurl_url': randomImage}));	
 	getIndex();
 }
