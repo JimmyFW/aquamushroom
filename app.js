@@ -7,7 +7,8 @@ window.addEventListener("load", getImages);
 /*
 On click, update the index, and display the desired image
 */
-document.body.addEventListener("click", setIndex);
+document.body.addEventListener("click", setUrl);
+
 
 images = [];
 hurl = 'https://secret-basin-29320.herokuapp.com/todo/api/v1.0/currid';
@@ -33,66 +34,42 @@ function getImages() {
 				images.push(url);
 			}
 		}
-		getIndex();
+		getUrl();
 	};
 	xhr.send();
 }
 
-function getIndex() {
-	console.log('Getting index');
-	var xhr = new XMLHttpRequest();
-	console.log(nubphotos);
-	fullHurl2 = hurl2 + "/" + String(nubphotos);
-	console.log(fullHurl2);
-	xhr.open("GET", fullHurl2);
-	xhr.responseType = "json";
-	xhr.onload = function(e) {
-		console.log(this.response);
-		indexResponse = this.response;
-		currIndex = indexResponse.currid;
-		console.log(currIndex);
-		getImage();
-	}
-	xhr.send();
-}
-
 function getImage() {
-	var img = images[currIndex];
-	console.log(img);
-	document.body.style.backgroundImage = "url(" + img + ")"
-}
-
-function setIndex() {
-	var randomImage = Math.floor(Math.random() * nubphotos )
-	console.log('Setting index');
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", hurl);
-	xhr.setRequestHeader("Content-type", "application/json");
-	xhr.send(JSON.stringify({'newid': randomImage}));	
-	getIndex();
+	document.body.style.backgroundImage = "url(" + curr_img + ")"
 }
 
 function getUrl() {
-	console.log('Getting index');
+	console.log('Getting url');
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET", hurl_url);
 	xhr.responseType = "json";
 	xhr.onload = function(e) {
 		console.log(this.response);
 		indexResponse = this.response;
-		currUrl = indexResponse.currurl;
-		console.log(currUrl);
+		curr_img = indexResponse.curr_url;
+		console.log(curr_img);
 		getImage();
 	}
 	xhr.send();
 }
 
 function setUrl() {
-	var randomImage = Math.floor(Math.random() * nubphotos )
+	var curr_randomImage = Math.floor(Math.random() * nubphotos );
+	var next_randomImage = Math.floor(Math.random() * nubphotos );
+	while (curr_randomImage == next_randomImage){
+		next_randomImage = Math.floor(Math.random() * nubphotos );
+	}
+	curr_img = images[curr_randomImage];
+	var next_img = images[next_randomImage];
 	console.log('Setting url');
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", hurl_url);
 	xhr.setRequestHeader("Content-type", "application/json");
-	xhr.send(JSON.stringify({'hurl_url': randomImage}));	
-	getIndex();
+	xhr.send(JSON.stringify({'currurl': curr_img, 'nexturl': next_img}));	
+	getImage();
 }
