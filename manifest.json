@@ -23,9 +23,10 @@
     "storage",
     "activeTab",
     "tabs",
-    "https://secret-basin-29320.herokuapp.com/todo/api/v1.0/currid/*",
+    "https://secret-basin-29320.herokuapp.com/todo/api/v1.0/curridz/*",
     "storage",
-    "identity"
+    "identity",
+    "https://68.media.tumblr.com/*"
   ],
   "content_security_policy": "script-src 'self' https://api.tumblr.com; object-src 'self'"
 }

@@ -40,7 +40,14 @@ function getImages() {
 }
 
 function getImage() {
-	document.body.style.backgroundImage = "url(" + curr_img + ")"
+	chrome.storage.local.get(['currurl', 'currimg'], function(items) {
+		console.log("items", items);
+		console.log("curr img", curr_img);
+		console.log("items url", items['currurl']);
+		if (curr_img == items['currurl']){
+			document.body.style.backgroundImage = "url(" + items["currimg"] + ")";
+		}
+    });
 }
 
 function getUrl() {
@@ -71,5 +78,29 @@ function setUrl() {
 	xhr.open("POST", hurl_url);
 	xhr.setRequestHeader("Content-type", "application/json");
 	xhr.send(JSON.stringify({'currurl': curr_img, 'nexturl': next_img}));	
+	getBase64Image(curr_img);
+	chrome.storage.local.set({'currurl': curr_img}, function() {
+      console.log('curr saved');
+	});
 	getImage();
+}
+
+function getBase64Image(url) {
+    var img = new Image();
+    img.crossOrigin = 'Anonymous';
+
+    img.onload = function() {
+	    var canvas = document.createElement("canvas");
+	    var canvasContext = canvas.getContext("2d");
+    	canvas.width = this.width;
+    	canvas.height = this.height;
+    	canvasContext.drawImage(img, 0, 0);
+    	var dataURL = canvas.toDataURL('image/png');
+		chrome.storage.local.set({'currimg': dataURL}, function() {
+	          console.log('curr saved');
+	    });
+    }
+    
+    img.src = url;
+    console.log(img);
 }
