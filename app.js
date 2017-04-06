@@ -1,19 +1,14 @@
-/*
-On tab load, grab image urls, put em in global,
-get the current index, and display the desired image
-*/
 window.addEventListener("load", startNewTab);
-
-/*
-On click, update the index, and display the desired image
-*/
 document.body.addEventListener("click", advanceImage);
-
 
 images = [];
 hurl_urls = 'https://secret-basin-29320.herokuapp.com/todo/api/v3.0/allurls';
 hurl_url = 'https://secret-basin-29320.herokuapp.com/todo/api/v3.0/currurl';
 
+// try to grab currimg out of localstorage and set it as background image
+// if we can't find it, get url from /v3.0/currurl,
+// store image data in localStorage,
+// and set stored data as background image
 function startNewTab() {
 	var storedImage = localStorage.getItem("currimg");
 	if (storedImage == null) {
