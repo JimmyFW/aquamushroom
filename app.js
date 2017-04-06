@@ -2,90 +2,102 @@
 On tab load, grab image urls, put em in global,
 get the current index, and display the desired image
 */
-window.addEventListener("load", getImages);
+window.addEventListener("load", startNewTab);
 
 /*
 On click, update the index, and display the desired image
 */
-document.body.addEventListener("click", setUrl);
+document.body.addEventListener("click", advanceImage);
 
 
 images = [];
-hurl = 'https://secret-basin-29320.herokuapp.com/todo/api/v1.0/currid';
-hurl2 = 'https://secret-basin-29320.herokuapp.com/todo/api/v2.0/currid/images';
 hurl_urls = 'https://secret-basin-29320.herokuapp.com/todo/api/v3.0/allurls';
-hurl_url = 'https://secret-basin-29320.herokuapp.com/todo/api/v3.0/currurl'
+hurl_url = 'https://secret-basin-29320.herokuapp.com/todo/api/v3.0/currurl';
 
-function getImages() {
-	console.log("Let's get the images");
+function startNewTab() {
+	var storedImage = localStorage.getItem("currimg");
+	if (storedImage == null) {
+		console.log("Get image from heroku");
+		getImageFromHeroku();
+	} else {
+		console.log("Get image from local storage");
+		setBackgroundToLocalCurrImg();
+	}
+}
+
+// if we don't have images, get images from tumblr
+// then, pick a random image, and set that image on heroku
+// then, load the data url into localstorage
+// and get the image from localstorage to the background
+function advanceImage() {
+	if (images.length === 0) {
+		console.log("Fetching from tumblr");
+		getImageFromTumblrWithCallback(updateCurrImage);
+	} else {
+		console.log("Updating with current images");
+		updateCurrImage();
+	}
+}
+
+// in localStorage, updates currUrl and currImage
+// in Heroku, updates currUrl
+function updateCurrImage() {
+	var randomIndex = Math.floor(Math.random() * images.length);
+	var new_url = images[randomIndex];
+	localStorage.setItem("currurl", new_url);
+	updateDataUrlWithCallback(new_url, setBackgroundToLocalCurrImg);
+	updateCurrImageOnHeroku(new_url);
+}
+
+function updateCurrImageOnHeroku(new_url) {
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", hurl_url);
+	xhr.setRequestHeader("Content-type", "application/json");
+	xhr.send(JSON.stringify({'currurl': new_url}));
+}
+
+function getImageFromTumblrWithCallback(callback) {
+	console.log("Let's get the images from tumblr");
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET", url, true);
 	xhr.responseType = "json";
 	xhr.onload = function(e) {
-		console.log(this.response);
 		globalResponse = this.response;
-		console.log(globalResponse);
-		nubphotos = globalResponse.response.posts.length;
-		console.log(nubphotos);
 		for (let post of globalResponse.response.posts) {
 			if (post.photos) {
 				var url = post.photos[0].original_size.url;
-				console.log(url);
 				images.push(url);
 			}
 		}
-		getUrl();
+		if (callback) {
+			callback.call();
+		}
 	};
 	xhr.send();
 }
 
-function getImage() {
-	chrome.storage.local.get(['currurl', 'currimg'], function(items) {
-		console.log("items", items);
-		console.log("curr img", curr_img);
-		console.log("items url", items['currurl']);
-		if (curr_img == items['currurl']){
-			document.body.style.backgroundImage = "url(" + items["currimg"] + ")";
-		}
-    });
-}
-
-function getUrl() {
-	console.log('Getting url');
+function getImageFromHeroku() {
 	var xhr = new XMLHttpRequest();
-	xhr.open("GET", hurl_url);
+	xhr.open("GET", hurl_url, true);
 	xhr.responseType = "json";
 	xhr.onload = function(e) {
-		console.log(this.response);
-		indexResponse = this.response;
-		curr_img = indexResponse.curr_url;
-		console.log(curr_img);
-		getImage();
-	}
+		var new_url = this.response.curr_url[0];
+		localStorage.setItem("currurl", new_url);
+		updateDataUrlWithCallback(new_url, setBackgroundToLocalCurrImg);
+	};
 	xhr.send();
 }
 
-function setUrl() {
-	var curr_randomImage = Math.floor(Math.random() * nubphotos );
-	var next_randomImage = Math.floor(Math.random() * nubphotos );
-	while (curr_randomImage == next_randomImage){
-		next_randomImage = Math.floor(Math.random() * nubphotos );
-	}
-	curr_img = images[curr_randomImage];
-	var next_img = images[next_randomImage];
-	console.log('Setting url');
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", hurl_url);
-	xhr.setRequestHeader("Content-type", "application/json");
-	xhr.send(JSON.stringify({'currurl': curr_img, 'nexturl': next_img}));	
-	getBase64Image(curr_img);
-	chrome.storage.local.set({'currurl': curr_img}, function() {
-      console.log('curr saved');
-	});
-	getImage();
+
+function setBackgroundToLocalCurrImg() {
+	document.body.style.backgroundImage = "url(" + localStorage.getItem("currimg") + ")";
 }
 
-function getBase64Image(url) {
+function updateDataUrl(url) {
+	updateDataUrlWithCallback(url, null);
+}
+
+function updateDataUrlWithCallback(url, callback) {
     var img = new Image();
     img.crossOrigin = 'Anonymous';
 
@@ -96,11 +108,12 @@ function getBase64Image(url) {
     	canvas.height = this.height;
     	canvasContext.drawImage(img, 0, 0);
     	var dataURL = canvas.toDataURL('image/png');
-		chrome.storage.local.set({'currimg': dataURL}, function() {
-	          console.log('curr saved');
-	    });
+    	localStorage.setItem('currimg', dataURL);
+    	if (callback) {
+    		console.log("updateDataUrl called with callback " + callback);
+    		callback.call();
+    	}
     }
     
     img.src = url;
-    console.log(img);
 }
