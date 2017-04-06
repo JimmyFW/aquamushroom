@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "AquaMushroom",
   "description": "Chestnut",
-  "version": "1.0",
+  "version": "1.0.1",
   "browser_action": {
     "default_icon": "rsz_bike.png"
   },
@@ -24,7 +24,7 @@
     "activeTab",
     "tabs",
     "https://secret-basin-29320.herokuapp.com/todo/api/*",
-    "storage",
+    "unlimitedStorage",
     "identity",
     "https://68.media.tumblr.com/*"
   ],
