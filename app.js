@@ -45,7 +45,11 @@ function getImage() {
 		console.log("curr img", curr_img);
 		console.log("items url", items['currurl']);
 		if (curr_img == items['currurl']){
+			console.log("LOAD");
 			document.body.style.backgroundImage = "url(" + items["currimg"] + ")";
+		}
+		else {
+			console.log("ELSE");
 		}
     });
 }
@@ -80,7 +84,7 @@ function setUrl() {
 	xhr.send(JSON.stringify({'currurl': curr_img, 'nexturl': next_img}));	
 	getBase64Image(curr_img);
 	chrome.storage.local.set({'currurl': curr_img}, function() {
-      console.log('curr saved');
+      console.log('curr url saved');
 	});
 	getImage();
 }
@@ -97,7 +101,7 @@ function getBase64Image(url) {
     	canvasContext.drawImage(img, 0, 0);
     	var dataURL = canvas.toDataURL('image/png');
 		chrome.storage.local.set({'currimg': dataURL}, function() {
-	          console.log('curr saved');
+	          console.log('curr img saved');
 	    });
     }
     
