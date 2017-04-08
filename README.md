@@ -1,5 +1,7 @@
 # The Medium is the New Tab
 
+![Cover image](https://raw.githubusercontent.com/jwjimmy/aquamushroom/master/media.png)
+
 It's simple - every day, we'll serve a new piece of art to everyone in your group when they open a New Tab. We only support art imports from Tumblr.
 
 Instructions for curators:
