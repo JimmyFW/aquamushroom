@@ -1,5 +1,13 @@
 # The Medium is the New Tab
 
-Inspired in part by McLuhan's ruminations on media as an extension of man (and by Google Art Project).
+It's simple - every day, we'll serve a new piece of art to everyone in your group when they open a New Tab. We only support art imports from Tumblr.
 
-Create shared browsing aesthetics from tumblr feeds.
+Instructions for curators:
+1. Install the app.
+2. Create your group by typing a name.
+3. Give us a tumblr URL for us to sync to.
+4. Have your friends join your group!
+
+Instructions for friends:
+1. Install the app.
+2. Join a group!
