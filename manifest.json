@@ -4,7 +4,7 @@
   "description": "Chestnut",
   "version": "1.0.1",
   "browser_action": {
-    "default_icon": "rsz_bike.png"
+    "default_icon": "mcluhan.jpg"
   },
   "chrome_url_overrides": {
     "newtab": "bg.html"

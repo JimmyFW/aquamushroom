@@ -10,14 +10,30 @@ hurl_url = 'https://secret-basin-29320.herokuapp.com/todo/api/v3.0/currurl';
 // store image data in localStorage,
 // and set stored data as background image
 function startNewTab() {
-	var storedImage = localStorage.getItem("currimg");
-	if (storedImage == null) {
-		console.log("Get image from heroku");
-		getImageFromHeroku();
+	var dburl = ""
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", hurl_url);
+	xhr.responseType = "json";
+	xhr.onload = function(e) {
+		console.log(this.response.curr_url[0]);
+		dburl = this.response.curr_url[0];
+	};
+	xhr.send();
+	var storedurl = localStorage.getItem("currurl");
+
+	if (dburl == storedurl) {
+		var storedImage = localStorage.getItem("currimg");
+		if (storedImage == null) {
+			console.log("Get image from heroku");
+			getImageFromHeroku();
+		} else {
+			console.log("Get image from local storage");
+			setBackgroundToLocalCurrImg();
+		}
 	} else {
-		console.log("Get image from local storage");
-		setBackgroundToLocalCurrImg();
+		getImageFromHeroku();
 	}
+
 }
 
 // if we don't have images, get images from tumblr
@@ -77,6 +93,7 @@ function getImageFromHeroku() {
 	xhr.open("GET", hurl_url, true);
 	xhr.responseType = "json";
 	xhr.onload = function(e) {
+		console.log(this.response);
 		var new_url = this.response.curr_url[0];
 		localStorage.setItem("currurl", new_url);
 		updateDataUrlWithCallback(new_url, setBackgroundToLocalCurrImg);
