@@ -10,6 +10,7 @@ hurl_url = 'https://secret-basin-29320.herokuapp.com/todo/api/v3.0/currurl';
 // store image data in localStorage,
 // and set stored data as background image
 function startNewTab() {
+	setBackgroundToLocalCurrImg();
 	var dburl = ""
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET", hurl_url);
