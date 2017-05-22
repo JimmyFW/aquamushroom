@@ -4,7 +4,9 @@
   "description": "Chestnut",
   "version": "1.0.1",
   "browser_action": {
-    "default_icon": "mushroom.png"
+    "default_icon": "mushroom.png",
+    "default_title": "The Medium is the New Tab",
+    "default_popup": "settings.html"
   },
   "chrome_url_overrides": {
     "newtab": "bg.html"
